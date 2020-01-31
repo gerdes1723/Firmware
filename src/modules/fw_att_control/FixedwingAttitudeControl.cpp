@@ -118,8 +118,9 @@ FixedwingAttitudeControl::vehicle_control_mode_poll()
 		const bool is_tailsitter_transition = _vehicle_status.in_transition_mode && _is_tailsitter;
 
 		if (is_hovering || is_tailsitter_transition) {
-			_vcontrol_mode.flag_control_attitude_enabled = false;
-			_vcontrol_mode.flag_control_manual_enabled = false;
+//commented by ARL *********************************************************************
+			//_vcontrol_mode.flag_control_attitude_enabled = false;
+			//_vcontrol_mode.flag_control_manual_enabled = false;
 		}
 	}
 }
@@ -372,7 +373,7 @@ void FixedwingAttitudeControl::Run()
 
 			/* lastly, roll- and yawspeed have to be swaped */
 			float helper = rollspeed;
-			rollspeed = -yawspeed;
+			rollspeed = -yawspeed; //ARL bookmark
 			yawspeed = helper;
 		}
 

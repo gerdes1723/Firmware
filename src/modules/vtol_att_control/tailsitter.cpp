@@ -96,7 +96,9 @@ void Tailsitter::update_vtol_state()
 			break;
 
 		case vtol_mode::FW_MODE:
-			_vtol_schedule.flight_mode = vtol_mode::TRANSITION_BACK;
+			//_vtol_schedule.flight_mode = vtol_mode::TRANSITION_BACK;
+			//ARL added failsafe direct to MC mode *****************************************************
+			_vtol_schedule.flight_mode = vtol_mode::MC_MODE;
 			_vtol_schedule.transition_start = hrt_absolute_time();
 			break;
 
@@ -121,7 +123,9 @@ void Tailsitter::update_vtol_state()
 		switch (_vtol_schedule.flight_mode) {
 		case vtol_mode::MC_MODE:
 			// initialise a front transition
-			_vtol_schedule.flight_mode = vtol_mode::TRANSITION_FRONT_P1;
+			// ARL replaced front transition with immediate change to FW mode*******************************************
+			//_vtol_schedule.flight_mode = vtol_mode::TRANSITION_FRONT_P1;
+			_vtol_schedule.flight_mode = vtol_mode::FW_MODE;
 			_vtol_schedule.transition_start = hrt_absolute_time();
 			break;
 
@@ -293,11 +297,11 @@ void Tailsitter::fill_actuator_outputs()
 
 	// use rotors for pitch, roll, and yaw control in fixed wing flight mode
 		_actuators_out_0->control[actuator_controls_s::INDEX_ROLL] =
-			_actuators_fw_in->control[actuator_controls_s::INDEX_YAW];
+			_actuators_fw_in->control[actuator_controls_s::INDEX_YAW]; //ARL: 1.10 maybe doesnt need the negative sign here?
 		_actuators_out_0->control[actuator_controls_s::INDEX_PITCH] =
 			_actuators_fw_in->control[actuator_controls_s::INDEX_PITCH];
 		_actuators_out_0->control[actuator_controls_s::INDEX_YAW] =
-			-_actuators_fw_in->control[actuator_controls_s::INDEX_ROLL];         //BELL added neative sign, corrected sensors in FW mode roll
+			-_actuators_fw_in->control[actuator_controls_s::INDEX_ROLL]; //ARL: not sure if negative sign is needed here
 
 	} else {
 		_actuators_out_0->control[actuator_controls_s::INDEX_THROTTLE] =

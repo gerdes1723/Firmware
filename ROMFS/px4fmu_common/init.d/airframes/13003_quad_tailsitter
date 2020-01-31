@@ -27,5 +27,3 @@ set MIXER quad_x_vtol
 
 set PWM_OUT 1234
 
-ms4525_airspeed start -a
-
